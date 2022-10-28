@@ -101,5 +101,5 @@ training_dt, test_dt = normalized_df.randomSplit([0.6,0.4], seed = 13)
 
 model_dt = pipeline_dt.fit(training_dt)
 
-model_dt.write().overwrite().save('gs://studentoct22-1/refinedzone/PIM30_classificationModel')
+model_dt.write().overwrite().save('gs://20221027-pim30-tanat-tonguthaisri-au-southeast1/refinedzone/PIM30_Tanat_Tonguthaisri_classificationModel')
 
