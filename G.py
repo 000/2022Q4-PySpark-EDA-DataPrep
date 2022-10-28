@@ -5,9 +5,27 @@ sc = pyspark.SparkContext()
 
 spark = SparkSession(sc)
 
+
+import os
+
+
+os.system('wget https://storage.googleapis.com/2022oct23/LoanStats_web.csv')
+os.system('hdfs dfs -mkdir -p /rawzone/')
+os.system('hdfs dfs -put LoanStats_web.csv /rawzone/')
+
+
+from pyspark.sql import functions as F
+
+#raw_LendingClubWeb_df = spark.read.csv("gs://studentoct22-2/rawzone/LoanStats_web.csv", header=True, \
+#                                       inferSchema=True, mode='DROPMALFORMED')
+
+
 raw_LendingClubWeb_df = spark.read.format('csv').\
 option('header','true').option('mode','DROPMALFORMED')\
 .load('/rawzone/LoanStats_web.csv')
+
+
+#raw_LendingClubWeb_df.count()
 
 loanPayment_df = raw_LendingClubWeb_df\
 .filter((F.col('loan_status') == 'Fully Paid') | ((F.col('loan_status') =='Charged Off')))
@@ -185,6 +203,15 @@ withColumn('total_bal_ex_mort',n_total_bal_ex_mort(crunched_df['total_bal_ex_mor
 normalized_filtered_df = normalized_df
 
 data_no_missing_df = normalized_filtered_df.dropna(how='any')
+
+# Update to your GCS bucket
+gcs_bucket = 'dataproc-bucket-name'
+
+gcs_filepath = 'gs://studentoct22-2/refinedzone/pim30_purpose.csv'.format(gcs_bucket)
+
+#data_no_missing_df.coalesce(1).write \
+#  .mode('overwrite') \
+#  .csv(gcs_filepath)
 
 
 normalized_df.write.mode('overwrite').parquet('/rawzone/')
