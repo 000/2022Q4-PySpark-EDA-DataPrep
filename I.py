@@ -9,12 +9,12 @@ from airflow.providers.google.cloud.operators.dataproc import (
 from airflow.providers.google.cloud.sensors.dataproc import DataprocJobSensor
 from airflow.utils.dates import days_ago
 
-PROJECT_ID = "playground-s-11-43116f80"
+PROJECT_ID = "playground-s-11-82e027bf"
 CLUSTER_NAME =  "pim30-tanat-classification-model"
 REGION = "australia-southeast1"
 ZONE = "australia-southeast1-a"
-PYSPARK_URI_csv_to_HDFS = "gs://studentoct22-1/refinedzone/G.py"
-PYSPARK_URI_HDFS_to_Model = "gs://studentoct22-1/refinedzone/H.py"
+PYSPARK_URI_csv_to_HDFS = "gs://20221027-pim30-tanat-tonguthaisri-au-southeast1/refinedzone/G.py"
+PYSPARK_URI_HDFS_to_Model = "gs://20221027-pim30-tanat-tonguthaisri-au-southeast1/refinedzone/H.py"
 
 YESTERDAY = datetime.datetime.now() - datetime.timedelta(days=1)
 
